@@ -2,9 +2,15 @@
   "name": "chessboard",
   "version": "0.0.0",
   "description": "auotmized chessboard",
-  "main": "index.js",
+  "main": "built/index",
+  "types": "built/index",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^7.0.18",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.1.6",
+    "typescript": "^2.3.2"
+  },
   "scripts": {
     "test": "test"
   },
