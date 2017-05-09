@@ -1,6 +1,12 @@
 
+import {LichessClient, LichessClientSettings} from "./LichessClient";
+
 export class Chessboard {
     constructor() {
-        console.log('test');
+        let settings: LichessClientSettings = {
+
+        };
+        let client: LichessClient = new LichessClient(settings);
+        client.getDailyPuzzle();
     }
 }
