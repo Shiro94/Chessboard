@@ -1,5 +1,6 @@
 import {Http} from "./Http";
 import fetch from "node-fetch";
+import {RequestInit} from "node-fetch";
 
 export interface LichessClientSettings {
     user?: string,
@@ -14,16 +15,12 @@ export class LichessClient {
     }
 
     public login(): boolean {
-
         return false;
     }
 
     public getDailyPuzzle(): void {
-        console.log('get daily puzzle..');
-        Http.fetchJSON('/training/daily')
-            .then(function(res){
-                return res.json();
-            }).then(function(body) {
+        Http.fetchJSON('/')
+            .then(function(body) {
                 console.log(body);
             });
     }
