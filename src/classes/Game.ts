@@ -2,7 +2,8 @@ import {LichessClient} from "./LichessClient";
 import merge = require("lodash.merge");
 import {Http} from "./Http";
 import request = require("request");
-import {Socket} from "./Socket";
+import {GameSocket, GameSocketListener} from "./GameSocket";
+var exec = require('child_process').exec;
 
 export interface GameOptions {
     variant?: number, //1 (standard) | 2 (chess960) | 3 (from position) | 4 (KotH)
@@ -15,9 +16,9 @@ export interface GameOptions {
     fen?: string,
 }
 
-export interface Challange {
+export interface Challenge {
     challenge: {
-        id: number,
+        id: string,
         direction: string,
         status: string,
         challenger: string,
@@ -42,23 +43,38 @@ export interface Challange {
 }
 
 export class Game {
-    private client: LichessClient;
-    private defaultGameOptions: GameOptions = { variant: 1, fen: '', timeMode: 0,
+    private _options: GameOptions = { variant: 1, fen: '', timeMode: 0,
         time: 5.0, increment: 8, days: 2, color: 'random', mode: 0
     };
+    private socket: GameSocket;
 
-    constructor(client: LichessClient) {
-        this.client = client;
+    constructor(options?: GameOptions) {
+        this._options = merge(this._options, options);
     }
 
-    create(options?: GameOptions) {
-        options = merge(this.defaultGameOptions, options);
+    public create(listener: GameSocketListener) {
         Http.fetchJSON('/setup/friend', {
             method: 'POST',
-            body: JSON.stringify(options)
-        }).then((challange: Challange) => {
-            let socket: Socket = new Socket();
-            socket.joinChallenge(challange);
+            body: JSON.stringify(this._options)
+        }).then((challenge: Challenge) => {
+            exec('start firefox https://de.lichess.org/' + challenge.challenge.id , function(err) {});
+            this.socket = new GameSocket(listener).join(challenge.challenge.id);
         });
+    }
+
+    public join(listener: GameSocketListener, id: string) {
+        Http.fetchJSON('/challenge/' + id + '/accept', {
+            method: 'POST'
+        }).then((json: any) => {
+            this.socket = new GameSocket(listener).join(json.url.socket);
+        });
+    }
+
+    get options(): GameOptions {
+        return this._options;
+    }
+
+    set options(value: GameOptions) {
+        this._options = value;
     }
 }

@@ -7,6 +7,7 @@
   "dependencies": {
     "@types/lodash.merge": "^4.6.2",
     "@types/node-fetch": "^1.6.7",
+    "@types/ws": "0.0.41",
     "lodash.merge": "^4.6.0",
     "ws": "^2.3.1"
   },

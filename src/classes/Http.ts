@@ -3,7 +3,7 @@ import {RequestInit, Response} from "node-fetch";
 import merge = require("lodash.merge");
 
 export class Http {
-    private static readonly BASE_URL = 'https://en.listage.ovh';
+    private static readonly BASE_URL = 'https://de.lichess.org';
 
     public static fetch(url : string, options?: RequestInit): Promise<Response> {
         options = merge({

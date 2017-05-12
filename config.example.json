@@ -1,4 +1,8 @@
 {
   "user": "username",
-  "password": "password"
+  "password": "password",
+  "url": {
+    "http": "https://de.lichess.org",
+    "socket": "https://socket.lichess.org"
+  }
 }

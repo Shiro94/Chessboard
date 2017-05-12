@@ -1,11 +1,10 @@
 import {LichessClient, LichessClientSettings} from "./LichessClient";
 import {Game} from "./Game";
+import {GameSocketListener} from "./GameSocket";
 
-export class Chessboard {
+export class Chessboard implements GameSocketListener {
     constructor() {
-        let settings: LichessClientSettings = {};
-        let client: LichessClient = new LichessClient(settings);
-        let game: Game = new Game(client);
-        game.create();
+        let game: Game = new Game();
+        game.join(this, 'NwIBOt55');
     }
 }
